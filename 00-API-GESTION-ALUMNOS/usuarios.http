@@ -1,0 +1,30 @@
+@url=http://localhost:3000
+
+### Obtener todos los usuarios
+GET {{url}}/usuarios
+
+### Obtener usuario por ID
+GET {{url}}/usuarios/1
+
+### Crear nuevo usuario
+POST {{url}}/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Carlos Ham",
+  "email": "carlitosham@example.com",
+  "password": "123456ch"
+}
+
+### Editar usuario
+PUT {{url}}/usuarios/1
+Content-Type: application/json
+
+{
+  "nombre": "Carlos A. Ham",
+  "email": "carlosaham@example.com",
+  "contrasena": "cha12345"
+}
+
+### Eliminar usuario
+DELETE {{url}}/usuarios/1

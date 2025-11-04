@@ -1,0 +1,34 @@
+@url=http://localhost:3000
+
+###  Obtener todas las materias
+GET {{url}}/materias
+
+
+###  Obtener una materia por ID
+GET {{url}}/materias/1
+
+
+###  Crear una nueva materia
+POST {{url}}/materias
+Content-Type: application/json
+
+{
+  "nombre": "Literatura",
+  "codigo": "LIT630",
+  "year": 2025
+}
+
+
+###  Editar una materia existente
+PUT {{url}}/materias/1
+Content-Type: application/json
+
+{
+  "nombre": "Programación III",
+  "codigo": "PROG3A",
+  "year": 2025
+}
+
+
+###  Eliminar una materia
+DELETE {{url}}/materias/1
