@@ -1,15 +1,26 @@
 @url=http://localhost:3000
+### LOGIN
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
 
+{
+  "email": "juan@example.com",
+  "password": "123456jh"
+}
+
+###
+@token = {{login.response.body.token}}
 ### Obtener todas las notas
 GET {{url}}/notas
-
+Authorization: Bearer {{token}}
 ### Obtener una nota por ID
 GET {{url}}/notas/2
-
+Authorization: Bearer {{token}}
 ### Crear nueva nota
 POST {{url}}/notas
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 {
   "alumno_id": 3,
   "materia_id": 1,
@@ -21,7 +32,7 @@ Content-Type: application/json
 ### Editar nota existente
 PUT {{url}}/notas/1
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 {
   "alumno_id": 2,
   "materia_id": 5,
@@ -32,3 +43,4 @@ Content-Type: application/json
 
 ### Eliminar nota
 DELETE {{url}}/notas/1
+Authorization: Bearer {{token}}

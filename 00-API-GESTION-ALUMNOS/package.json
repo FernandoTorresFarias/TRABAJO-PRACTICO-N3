@@ -7,9 +7,12 @@
     "dev": "node --env-file=.env --watch index.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "express": "^4.19.0",
-    "mysql2": "^3.9.0",
     "express-validator": "^7.0.1",
-    "cors": "^2.8.5"
+    "mysql2": "^3.9.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1"
   }
 }

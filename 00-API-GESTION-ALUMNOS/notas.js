@@ -1,7 +1,7 @@
 import express from "express";
 import { db } from "./db.js";
 import { validarNota, validarId, manejarValidaciones } from "./validaciones.js";
-
+import { verificarAutenticacion } from "./auth.js";
 const router = express.Router();
 
 //  Obtener todas las notas (con nombres de alumno y materia)
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 //  Obtener una nota por ID
-router.get("/:id", validarId, manejarValidaciones, async (req, res) => {
+router.get("/:id",verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
   const [rows] = await db.query(`
     SELECT n.id, a.nombre AS alumno, m.nombre AS materia,
@@ -35,7 +35,7 @@ router.get("/:id", validarId, manejarValidaciones, async (req, res) => {
 });
 
 // Crear una nueva nota
-router.post("/", validarNota, manejarValidaciones, async (req, res) => {
+router.post("/", verificarAutenticacion,validarNota, manejarValidaciones, async (req, res) => {
   const { alumno_id, materia_id, nota1, nota2, nota3 } = req.body;
 
   //  Verificar existencia de alumno y materia ANTES del insert
@@ -64,7 +64,7 @@ router.post("/", validarNota, manejarValidaciones, async (req, res) => {
 });
 
 //  Editar nota existente
-router.put("/:id", validarId, validarNota, manejarValidaciones, async (req, res) => {
+router.put("/:id",verificarAutenticacion, validarId, validarNota, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
   const { alumno_id, materia_id, nota1, nota2, nota3 } = req.body;
 
@@ -91,7 +91,7 @@ router.put("/:id", validarId, validarNota, manejarValidaciones, async (req, res)
 });
 
 //  Eliminar una nota
-router.delete("/:id", validarId, manejarValidaciones, async (req, res) => {
+router.delete("/:id",verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
 
   //  Solo eliminar (no hace falta validar alumno/materia)

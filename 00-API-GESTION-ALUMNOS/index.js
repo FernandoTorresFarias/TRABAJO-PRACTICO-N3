@@ -5,6 +5,7 @@ import alumnosRouter from "./alumnos.js";
 import materiasRouter from "./materias.js";
 import usuariosRouter from "./usuarios.js"
 import notasRouter from "./notas.js"
+import authRouter, { authConfig } from "./auth.js"
 
 
 
@@ -20,13 +21,11 @@ app.get("/", (req, res) => {
 });
 
 
-
-/*/
 //Habilito CORS
 app.use(cors())
 
 authConfig();
-*/
+
 
 
 
@@ -34,6 +33,7 @@ app.use("/alumnos", alumnosRouter);
 app.use("/materias",materiasRouter);
 app.use("/usuarios",usuariosRouter)
 app.use("/notas",notasRouter)
+app.use("/auth", authRouter);
 app.listen(port, () => {
   console.log(`La aplicación esta funcionando en el puerto ${port}`);
 });

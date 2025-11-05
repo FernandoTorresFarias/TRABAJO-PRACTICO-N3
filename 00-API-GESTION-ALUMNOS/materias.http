@@ -1,17 +1,29 @@
 @url=http://localhost:3000
+### LOGIN
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
 
+{
+  "email": "juan@example.com",
+  "password": "123456jh"
+}
+
+###
+@token = {{login.response.body.token}}
 ###  Obtener todas las materias
 GET {{url}}/materias
+Authorization: Bearer {{token}}
 
 
 ###  Obtener una materia por ID
 GET {{url}}/materias/1
-
+Authorization: Bearer {{token}}
 
 ###  Crear una nueva materia
 POST {{url}}/materias
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 {
   "nombre": "Literatura",
   "codigo": "LIT630",
@@ -22,7 +34,7 @@ Content-Type: application/json
 ###  Editar una materia existente
 PUT {{url}}/materias/1
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 {
   "nombre": "Programación III",
   "codigo": "PROG3A",
@@ -32,3 +44,4 @@ Content-Type: application/json
 
 ###  Eliminar una materia
 DELETE {{url}}/materias/1
+Authorization: Bearer {{token}}

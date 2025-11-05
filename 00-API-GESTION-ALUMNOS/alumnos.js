@@ -1,13 +1,14 @@
 import express from "express";
 import { db } from "./db.js";
-import { validarAlumno, validarId, manejarValidaciones } from "./validaciones.js";
-
+import { validarAlumno, validarId, manejarValidaciones} from "./validaciones.js";
+import passport from "passport";
+import { verificarAutenticacion } from "./auth.js";
 const router = express.Router();
 
 
 // OBTENER TODOS LOS ALUMNOS
 
-router.get("/", async (req, res) => {
+router.get("/",verificarAutenticacion, async (req, res) => {
   const [rows] = await db.query("SELECT * FROM alumnos");
   res.json(rows);
 });
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
 
 //OBTENER ALUMNO POR ID
 
-router.get("/:id", validarId, manejarValidaciones, async (req, res) => {
+router.get("/:id",verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
   const [rows] = await db.query("SELECT * FROM alumnos WHERE id = ?", [id]);
 
@@ -29,7 +30,7 @@ router.get("/:id", validarId, manejarValidaciones, async (req, res) => {
 
 // CREAR NUEVO ALUMNO
 
-router.post("/", validarAlumno, manejarValidaciones, async (req, res) => {
+router.post("/",verificarAutenticacion, validarAlumno, manejarValidaciones, async (req, res) => {
   const { nombre, apellido, dni } = req.body;
 
   const [resultado] = await db.query(
@@ -50,7 +51,8 @@ router.post("/", validarAlumno, manejarValidaciones, async (req, res) => {
 
  ///EDITAR ALUMNO EXISTENTE
 
-router.put("/:id", validarId, validarAlumno, manejarValidaciones, async (req, res) => {
+router.put("/:id",verificarAutenticacion
+, validarId, validarAlumno, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
   const { nombre, apellido, dni } = req.body;
 
@@ -68,7 +70,7 @@ router.put("/:id", validarId, validarAlumno, manejarValidaciones, async (req, re
 
 
 // ELIMINAR ALUMNO POR ID
-router.delete("/:id", validarId, manejarValidaciones, async (req, res) => {
+router.delete("/:id",verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
 
   const [resultado] = await db.query("DELETE FROM alumnos WHERE id = ?", [id]);

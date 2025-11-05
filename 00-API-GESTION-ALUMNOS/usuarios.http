@@ -1,24 +1,42 @@
 @url=http://localhost:3000
 
+### LOGIN
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "juan@example.com",
+  "password": "123456jh"
+}
+
+###
+@token = {{login.response.body.token}}
+
+
 ### Obtener todos los usuarios
 GET {{url}}/usuarios
+Authorization: Bearer {{token}}
 
 ### Obtener usuario por ID
-GET {{url}}/usuarios/1
+GET {{url}}/usuarios/2
+Authorization: Bearer {{token}}
 
 ### Crear nuevo usuario
 POST {{url}}/usuarios
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "nombre": "Carlos Ham",
-  "email": "carlitosham@example.com",
-  "password": "123456ch"
+  "nombre": "Juan Ham",
+  "email": "juan@example.com",
+  "password": "123456jh"
 }
 
 ### Editar usuario
-PUT {{url}}/usuarios/1
+PUT {{url}}/usuarios/2
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "nombre": "Carlos A. Ham",
@@ -28,3 +46,4 @@ Content-Type: application/json
 
 ### Eliminar usuario
 DELETE {{url}}/usuarios/1
+Authorization: Bearer {{token}}

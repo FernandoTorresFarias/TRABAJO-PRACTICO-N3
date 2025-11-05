@@ -1,7 +1,7 @@
 import express from "express";
 import { db } from "./db.js";
 import { validarMateria, validarId, manejarValidaciones } from "./validaciones.js";
-
+import { verificarAutenticacion } from "./auth.js";
 const router = express.Router();
 
 // OBTENER TODAS LAS MATERIAS
@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 });
 
 // OBTENER MATERIA POR ID
-router.get("/:id", validarId, manejarValidaciones, async (req, res) => {
+router.get("/:id", verificarAutenticacion,validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
   const [rows] = await db.query("SELECT * FROM materias WHERE id = ?", [id]);
 
@@ -23,7 +23,7 @@ router.get("/:id", validarId, manejarValidaciones, async (req, res) => {
 });
 
 // CREAR NUEVA MATERIA
-router.post("/", validarMateria, manejarValidaciones, async (req, res) => {
+router.post("/", verificarAutenticacion,validarMateria, manejarValidaciones, async (req, res) => {
   const { nombre, codigo, year } = req.body;
 
   const [resultado] = await db.query(
@@ -42,7 +42,7 @@ router.post("/", validarMateria, manejarValidaciones, async (req, res) => {
 });
 
 // EDITAR MATERIA EXISTENTE
-router.put("/:id", validarId, validarMateria, manejarValidaciones, async (req, res) => {
+router.put("/:id",verificarAutenticacion, validarId, validarMateria, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
   const { nombre, codigo, year } = req.body;
 
@@ -59,7 +59,7 @@ router.put("/:id", validarId, validarMateria, manejarValidaciones, async (req, r
 });
 
 // ELIMINAR MATERIA POR ID
-router.delete("/:id", validarId, manejarValidaciones, async (req, res) => {
+router.delete("/:id", verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
 
   const [resultado] = await db.query("DELETE FROM materias WHERE id = ?", [id]);
