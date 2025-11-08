@@ -108,7 +108,7 @@ export const validarId = [
 export const manejarValidaciones = (req, res, next) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
-    return res.status(400).json({ errores: errores.array() });
+    return res.status(400).json({  errors: errores.array()  });
   }
   next();
 };

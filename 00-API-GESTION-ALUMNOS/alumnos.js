@@ -70,9 +70,13 @@ router.put("/:id",verificarAutenticacion
 
 
 // ELIMINAR ALUMNO POR ID
-router.delete("/:id",verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
+router.delete("/:id", verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
 
+  // eliminar las notas asociadas para no tener problemas con bbdd
+  await db.query("DELETE FROM notas WHERE alumno_id = ?", [id]);
+
+  // eliminar el alumno
   const [resultado] = await db.query("DELETE FROM alumnos WHERE id = ?", [id]);
 
   if (resultado.affectedRows === 0) {
@@ -81,5 +85,6 @@ router.delete("/:id",verificarAutenticacion, validarId, manejarValidaciones, asy
 
   res.json({ message: "Alumno eliminado correctamente" });
 });
+
 
 export default router;

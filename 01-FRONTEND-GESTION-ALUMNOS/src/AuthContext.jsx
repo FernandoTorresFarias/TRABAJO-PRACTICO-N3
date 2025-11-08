@@ -48,15 +48,15 @@ export const AuthProvider = ({ children }) => {
       throw new Error("No está iniciada la sesión");
     }
 
-    return fetch(url, {
-      ...options,
-      headers: { ...options.headers, Authorization: `Bearer ${token}` },
-    });
-  };
+   return fetch(url, {
+   ...options,
+   headers: {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
+   },}); };
 
-  return (
+   return (
     <AuthContext.Provider value={{ token, error, login, logout, fetchAuth }}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  );};

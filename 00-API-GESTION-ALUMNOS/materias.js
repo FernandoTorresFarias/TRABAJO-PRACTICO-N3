@@ -58,17 +58,30 @@ router.put("/:id",verificarAutenticacion, validarId, validarMateria, manejarVali
   res.json({ message: "Materia actualizada correctamente" });
 });
 
-// ELIMINAR MATERIA POR ID
+// ELIMINAR MATERIA
 router.delete("/:id", verificarAutenticacion, validarId, manejarValidaciones, async (req, res) => {
   const { id } = req.params;
 
-  const [resultado] = await db.query("DELETE FROM materias WHERE id = ?", [id]);
+  try {
+    const [resultado] = await db.query("DELETE FROM materias WHERE id = ?", [id]);
 
-  if (resultado.affectedRows === 0) {
-    return res.status(404).json({ message: "Materia no encontrada" });
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ message: "Materia no encontrada" });
+    }
+
+    res.json({ message: "Materia eliminada correctamente" });
+
+  } catch (error) {
+    if (error.code === "ER_ROW_IS_REFERENCED_2") {
+      return res.status(400).json({
+        message: "No se puede eliminar la materia porque tiene notas asociadas.",
+      });
+    }
+
+    res.status(500).json({ message: "Error al eliminar la materia" });
   }
-
-  res.json({ message: "Materia eliminada correctamente" });
 });
 
 export default router;
+
+
