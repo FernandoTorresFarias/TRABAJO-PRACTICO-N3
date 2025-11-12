@@ -1,17 +1,17 @@
-//  IMPORTAR useLocation
+// 1. IMPORTAR useLocation
 import { Outlet, Link, useLocation } from "react-router";
 import { useAuth } from "./AuthContext";
 import LoginForm from "./LoginFormulario";
 
 export const Layout = () => {
   const { token, logout } = useAuth();
-  //  OBTENER LA UBICACIÓN ACTUAL
+  // 2. OBTENER LA UBICACIÓN ACTUAL
   const location = useLocation();
 
-  //  REVISAR SI ESTAMOS EN LA RUTA PÚBLICA DE REGISTRO
+  // 3. REVISAR SI ESTAMOS EN LA RUTA PÚBLICA DE REGISTRO
   const isPublicUnauthRoute = location.pathname === "/registro";
 
-  //  LÓGICA DE CONTENIDO
+  // 4. LÓGICA DE CONTENIDO
   let content;
   if (!token) {
     // Si NO hay token
@@ -44,6 +44,8 @@ export const Layout = () => {
           </button>
         )}
       </nav>
+      {/* contenido principal */}
+      {/* 5. USAR LA NUEVA LÓGICA DE CONTENIDO */}
       <section className={token ? "section--page" : "section--centered"}>
         {content}
       </section>

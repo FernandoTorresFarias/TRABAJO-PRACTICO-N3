@@ -1,0 +1,86 @@
+/* Contenedor general */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  padding: 2rem;
+  background: var(--pico-background-color);
+  gap: 2rem;
+}
+
+/* Columna izquierda */
+.login-left {
+  flex: 1;
+  text-align: center;
+  padding: 2rem;
+  border-right: 1px solid var(--pico-muted-border-color);
+}
+
+.login-left img {
+  width: 150px;
+  margin-bottom: 1rem;
+}
+
+.login-left h2 {
+  font-weight: 600;
+  color: var(--pico-color);
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Columna derecha */
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tarjeta del formulario */
+.login-card {
+  width: 100%;
+  max-width: 350px;
+  padding: 2rem;
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-card-background-color);
+  box-shadow: var(--pico-card-box-shadow);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Botón */
+.login-card button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Mensajes */
+.login-card p {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Footer del registro */
+.login-card footer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .login-left {
+    border-right: none;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+  }
+}
+
+

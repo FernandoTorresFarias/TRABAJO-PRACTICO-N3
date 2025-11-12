@@ -61,3 +61,51 @@ main.container {
   align-items: center;
   gap: 4px;
 }
+
+/* =========================
+   FIX NAV Y LOGIN
+========================= */
+
+/* Que el NAV ocupe todo el ancho */
+nav {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  background: #f9fafb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* El MAIN ocupa todo el alto y ancho */
+main.container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Centrado del login a pantalla completa */
+.section--centered {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px); /* resta la altura del nav */
+  background: #f9fafb;
+  padding: 2rem;
+}
+
+main, section {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Evita scroll horizontal */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Corrige el "salto" por el 100vw en nav */
+nav {
+  width: 100%;
+  margin: 0;
+}

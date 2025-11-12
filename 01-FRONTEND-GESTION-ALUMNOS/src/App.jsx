@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-    <p>Bienvenido al Modulo De Gestion de Alumnos.</p>
+    
     </>
   )
 }
