@@ -1,17 +1,17 @@
-// 1. IMPORTAR useLocation
+//  IMPORTAR useLocation
 import { Outlet, Link, useLocation } from "react-router";
 import { useAuth } from "./AuthContext";
 import LoginForm from "./LoginFormulario";
 
 export const Layout = () => {
   const { token, logout } = useAuth();
-  // 2. OBTENER LA UBICACIÓN ACTUAL
+  //  OBTENER LA UBICACIÓN ACTUAL
   const location = useLocation();
 
-  // 3. REVISAR SI ESTAMOS EN LA RUTA PÚBLICA DE REGISTRO
+  //  REVISAR SI ESTAMOS EN LA RUTA PÚBLICA DE REGISTRO
   const isPublicUnauthRoute = location.pathname === "/registro";
 
-  // 4. LÓGICA DE CONTENIDO
+  //  LÓGICA DE CONTENIDO
   let content;
   if (!token) {
     // Si NO hay token
