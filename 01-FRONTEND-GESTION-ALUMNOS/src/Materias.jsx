@@ -16,14 +16,14 @@ export function Materias() {
       const data = await response.json();
       setMaterias(data);
     } catch (error) {
-      console.error(" Error al obtener materias:", error);
+      console.error("Error al obtener materias:", error);
     }
   }
 
   async function eliminarMateria(id) {
     const confirmar = window.confirm("¿Seguro que deseas eliminar esta materia?");
 
-    if (!confirmar) return; //  canceló usuario
+    if (!confirmar) return;
 
     try {
       const response = await fetchAuth(`http://localhost:3000/materias/${id}`, {
@@ -33,8 +33,7 @@ export function Materias() {
       const data = await response.json();
 
       if (!response.ok) {
-        //  Mostramos el mensaje de la API (FK con notas)
-        alert(` No se puede eliminar:\n${data.message}`);
+        alert(`⚠️ No se puede eliminar:\n${data.message}`);
         return;
       }
 
@@ -74,12 +73,14 @@ export function Materias() {
               <td>{m.codigo}</td>
               <td>{m.year}</td>
               <td>
-                <Link to={`/materias/editar/${m.id}`}>
-                  <button>✏️ Editar</button>
-                </Link>
-                <button onClick={() => eliminarMateria(m.id)} className="contrast">
-                  🗑️ Eliminar
-                </button>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <Link to={`/materias/editar/${m.id}`}>
+                    <button className="btn-editar">✏️ Editar</button>
+                  </Link>
+                  <button onClick={() => eliminarMateria(m.id)} className="btn-eliminar">
+                    🗑️ Eliminar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

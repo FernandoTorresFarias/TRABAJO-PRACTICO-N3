@@ -22,7 +22,8 @@ export function Notas() {
   }
 
   async function eliminarNota(id) {
-    if (!confirm("¿Seguro que deseas eliminar esta nota?")) return;
+    const confirmar = window.confirm("¿Seguro que deseas eliminar esta nota?");
+    if (!confirmar) return;
 
     try {
       await fetchAuth(`http://localhost:3000/notas/${id}`, {
@@ -32,11 +33,12 @@ export function Notas() {
       cargarNotas();
     } catch (error) {
       console.error("❌ Error eliminando nota:", error);
+      alert("⚠️ Error inesperado al eliminar la nota.");
     }
   }
 
   function calcularPromedio(n1, n2, n3) {
-    return ((n1 + n2 + n3) / 3).toFixed(2); // deja 2 decimales
+    return ((n1 + n2 + n3) / 3).toFixed(2);
   }
 
   return (
@@ -62,7 +64,7 @@ export function Notas() {
         </thead>
 
         <tbody>
-          {notas.map(n => (
+          {notas.map((n) => (
             <tr key={n.id}>
               <td>{n.alumno}</td>
               <td>{n.materia}</td>
@@ -72,12 +74,15 @@ export function Notas() {
               <td><strong>{calcularPromedio(n.nota1, n.nota2, n.nota3)}</strong></td>
 
               <td>
-                <Link to={`/notas/editar/${n.id}`}>
-                  <button>✏️ Editar</button>
-                </Link>
-                <button className="contrast" onClick={() => eliminarNota(n.id)}>
-                  🗑️ Borrar
-                </button>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <Link to={`/notas/editar/${n.id}`}>
+                    <button className="btn-editar">✏️ Editar</button>
+                  </Link>
+
+                  <button className="btn-eliminar" onClick={() => eliminarNota(n.id)}>
+                    🗑️ Eliminar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

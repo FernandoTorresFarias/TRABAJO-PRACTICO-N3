@@ -21,15 +21,18 @@ export function Alumnos() {
   }
 
   async function eliminarAlumno(id) {
-    if (!confirm("¿Seguro que deseas eliminar este alumno?")) return;
+    const confirmar = window.confirm("¿Seguro que deseas eliminar este alumno?");
+    if (!confirmar) return;
 
     try {
       await fetchAuth(`http://localhost:3000/alumnos/${id}`, {
         method: "DELETE",
       });
-      cargarAlumnos(); // refresca la tabla
+
+      cargarAlumnos();
     } catch (error) {
       console.error("Error al eliminar alumno:", error);
+      alert("⚠️ Error inesperado al eliminar el alumno.");
     }
   }
 
@@ -61,12 +64,15 @@ export function Alumnos() {
               <td>{al.nombre}</td>
               <td>{al.dni}</td>
               <td>
-                <Link to={`/alumnos/editar/${al.id}`}>
-                  <button>✏️ Editar</button>
-                </Link>
-                <button onClick={() => eliminarAlumno(al.id)} className="contrast">
-                  🗑️ Eliminar
-                </button>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <Link to={`/alumnos/editar/${al.id}`}>
+                    <button className="btn-editar">✏️ Editar</button>
+                  </Link>
+
+                  <button className="btn-eliminar" onClick={() => eliminarAlumno(al.id)}>
+                    🗑️ Eliminar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

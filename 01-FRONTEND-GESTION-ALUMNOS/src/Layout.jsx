@@ -44,9 +44,6 @@ export const Layout = () => {
           </button>
         )}
       </nav>
-       <p>Bienvenido al Modulo de Gestion de Alumnos De Instituto Saint James!!</p>
-      {/* contenido principal */}
-      {/* 5. USAR LA NUEVA LÓGICA DE CONTENIDO */}
       <section className={token ? "section--page" : "section--centered"}>
         {content}
       </section>
