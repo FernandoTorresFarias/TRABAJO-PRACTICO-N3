@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { Link } from "react-router-dom";
+import { ConfirmModal } from "./ConfirmModal"; // importa el modal
 
 export function Alumnos() {
   const { fetchAuth } = useAuth();
   const [alumnos, setAlumnos] = useState([]);
+
+  // Estados del modal
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [alumnoAEliminar, setAlumnoAEliminar] = useState(null);
 
   useEffect(() => {
     cargarAlumnos();
@@ -20,15 +25,21 @@ export function Alumnos() {
     }
   }
 
-  async function eliminarAlumno(id) {
-    const confirmar = window.confirm("¿Seguro que deseas eliminar este alumno?");
-    if (!confirmar) return;
+  // Abrir modal al hacer click
+  function pedirConfirmacion(id) {
+    setAlumnoAEliminar(id);
+    setModalAbierto(true);
+  }
 
+  // Confirmar eliminación
+  async function eliminarAlumno() {
     try {
-      await fetchAuth(`http://localhost:3000/alumnos/${id}`, {
+      await fetchAuth(`http://localhost:3000/alumnos/${alumnoAEliminar}`, {
         method: "DELETE",
       });
 
+      setModalAbierto(false);
+      setAlumnoAEliminar(null);
       cargarAlumnos();
     } catch (error) {
       console.error("Error al eliminar alumno:", error);
@@ -69,7 +80,10 @@ export function Alumnos() {
                     <button className="btn-editar">✏️ Editar</button>
                   </Link>
 
-                  <button className="btn-eliminar" onClick={() => eliminarAlumno(al.id)}>
+                  <button
+                    className="btn-eliminar"
+                    onClick={() => pedirConfirmacion(al.id)}
+                  >
                     🗑️ Eliminar
                   </button>
                 </div>
@@ -78,6 +92,14 @@ export function Alumnos() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal de confirmación */}
+      <ConfirmModal
+        open={modalAbierto}
+        message="¿Seguro que deseas eliminar este alumno?"
+        onConfirm={eliminarAlumno}
+        onCancel={() => setModalAbierto(false)}
+      />
     </article>
   );
 }

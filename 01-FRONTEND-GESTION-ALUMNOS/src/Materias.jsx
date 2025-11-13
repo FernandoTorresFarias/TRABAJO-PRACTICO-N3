@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { Link } from "react-router-dom";
+import { ConfirmModal } from "./ConfirmModal"; // importamos el modal
 
 export function Materias() {
   const { fetchAuth } = useAuth();
   const [materias, setMaterias] = useState([]);
+
+  // Estados para manejar el modal
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [materiaAEliminar, setMateriaAEliminar] = useState(null);
+  const [mensajeError, setMensajeError] = useState("");
 
   useEffect(() => {
     cargarMaterias();
@@ -20,28 +26,34 @@ export function Materias() {
     }
   }
 
-  async function eliminarMateria(id) {
-    const confirmar = window.confirm("¿Seguro que deseas eliminar esta materia?");
+  // Abre el modal
+  function pedirConfirmacion(id) {
+    setMateriaAEliminar(id);
+    setMensajeError("");
+    setModalAbierto(true);
+  }
 
-    if (!confirmar) return;
-
+  // Ejecuta la eliminación
+  async function eliminarMateria() {
     try {
-      const response = await fetchAuth(`http://localhost:3000/materias/${id}`, {
+      const response = await fetchAuth(`http://localhost:3000/materias/${materiaAEliminar}`, {
         method: "DELETE",
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(`⚠️ No se puede eliminar:\n${data.message}`);
+        setMensajeError(`⚠️ No se puede eliminar:\n${data.message}`);
         return;
       }
 
+      setModalAbierto(false);
+      setMateriaAEliminar(null);
       cargarMaterias();
 
     } catch (error) {
       console.error("Error al eliminar materia:", error);
-      alert("⚠️ Error inesperado al eliminar la materia.");
+      setMensajeError("⚠️ Error inesperado al eliminar la materia.");
     }
   }
 
@@ -77,7 +89,10 @@ export function Materias() {
                   <Link to={`/materias/editar/${m.id}`}>
                     <button className="btn-editar">✏️ Editar</button>
                   </Link>
-                  <button onClick={() => eliminarMateria(m.id)} className="btn-eliminar">
+                  <button
+                    className="btn-eliminar"
+                    onClick={() => pedirConfirmacion(m.id)}
+                  >
                     🗑️ Eliminar
                   </button>
                 </div>
@@ -86,6 +101,18 @@ export function Materias() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal de confirmación */}
+      <ConfirmModal
+        open={modalAbierto}
+        message={
+          mensajeError
+            ? mensajeError
+            : "¿Seguro que deseas eliminar esta materia?"
+        }
+        onConfirm={eliminarMateria}
+        onCancel={() => setModalAbierto(false)}
+      />
     </article>
   );
 }
